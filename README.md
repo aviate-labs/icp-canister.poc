@@ -5,3 +5,8 @@
 ```text
 The Replica returned an error: code 4, message: "IC0503: Canister ryjl3-tyaaa-aaaaa-aaaba-cai trapped explicitly: Panicked at 'Deserialization Failed: "Fail to decode argument 0 from table0 to record { account : vec nat8 }"', /builds/dfinity/ic/rs/rust_canisters/dfn_core/src/endpoint.rs:34:41"
 ```
+
+You can test it yourself with `dfx`:
+```
+dfx canister --network=ic call pquf5-oaaaa-aaaag-aaala-cai balance
+```
