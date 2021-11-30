@@ -4,6 +4,8 @@ module {
         #Err : E;
     };
 
+    public type TransferResult = Result<BlockIndex, TransferError>;
+
     // Amount of ICP tokens, measured in 10^-8 of a token.
     public type ICP = {
         e8s : Nat64;
@@ -77,7 +79,7 @@ module {
     };
 
     public type Interface = actor {
-        transfer        : TransferArgs       -> async Result<BlockIndex, TransferError>;
+        transfer        : TransferArgs       -> async TransferResult;
         account_balance : AccountBalanceArgs -> async ICP;
     };
 };
