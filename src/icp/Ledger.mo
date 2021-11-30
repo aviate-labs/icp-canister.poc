@@ -1,6 +1,9 @@
-import Result "mo:base/Result";
-
 module {
+    public type Result<T, E> = {
+        #Ok  : T;
+        #Err : E;
+    };
+
     // Amount of ICP tokens, measured in 10^-8 of a token.
     public type ICP = {
         e8s : Nat64;
@@ -74,7 +77,7 @@ module {
     };
 
     public type Interface = actor {
-        transfer        : TransferArgs       -> async Result.Result<BlockIndex, TransferError>;
+        transfer        : TransferArgs       -> async Result<BlockIndex, TransferError>;
         account_balance : AccountBalanceArgs -> async ICP;
     };
 };
