@@ -6,9 +6,13 @@ import Principal "mo:base/Principal";
 import AId "mo:principal/blob/AccountIdentifier";
 
 import Ledger "Ledger";
+import LedgerC "LedgerCandid";
 
-shared({caller = owner}) actor class ICP() = this {
-    private let ledger : Ledger.Interface = actor("ryjl3-tyaaa-aaaaa-aaaba-cai");
+shared({caller = owner}) actor class ICP(
+    ledgerCandid : Principal,
+) = this {
+    private let ledger  : Ledger.Interface  = actor("ryjl3-tyaaa-aaaaa-aaaba-cai");
+    private let ledgerC : LedgerC.Interface = actor(Principal.toText(ledgerCandid));
 
     public func accountId() : async Text {
         AId.toText(aId());
@@ -41,5 +45,35 @@ shared({caller = owner}) actor class ICP() = this {
             to              = aId;
             created_at_time = null;
         });
+    };
+
+    public shared func tipOfChainDetails() : async (Ledger.BlockIndex, LedgerC.Transaction) {
+        let tip = await ledgerC.tip_of_chain();
+        switch (tip) {
+            case (#Err(_)) {
+                assert(false);
+                loop {};
+            };
+            case (#Ok(t)) {
+                let block = await ledgerC.block(t.tip_index);
+                switch (block) {
+                    case (#Err(_)) {
+                        assert(false);
+                        loop {};
+                    };
+                    case (#Ok(r)) {
+                        switch (r) {
+                            case (#Err(_)) {
+                                assert(false);
+                                loop {};
+                            };
+                            case (#Ok(b)) {
+                                (t.tip_index, b.transaction);
+                            };
+                        };
+                    };
+                };
+            };
+        };
     };
 };

@@ -1,0 +1,59 @@
+type Block = record {
+  parent_hash: Hash;
+  timestamp: TimeStamp;
+  transaction: Transaction;
+};
+
+type Hash = opt record {
+  inner: blob;
+};
+
+type AccountIdentifier = text;
+
+type ICPTs = record {
+  e8s : nat64;
+};
+
+type Memo = nat64;
+
+type TimeStamp = record {
+  timestamp_nanos: nat64;
+};
+
+type Transaction = record {
+  transfer: Transfer;
+  memo: Memo;
+  created_at_time: TimeStamp;
+};
+
+type Transfer = variant {
+  Burn: record {
+    from: AccountIdentifier;
+    amount: ICPTs;
+  };
+  Mint: record {
+    to: AccountIdentifier;
+    amount: ICPTs;
+  };
+  Send: record {
+    from: AccountIdentifier;
+    to: AccountIdentifier;
+    amount: ICPTs;
+  };
+};
+
+type CanisterId = principal;
+
+type TipOfChain = record {
+  certification: opt Certification;
+  tip_index: BlockHeight;
+};
+
+type Certification = blob;
+
+type BlockHeight = nat64;
+
+service : {
+  block : (nat64) -> (variant { Ok: variant { Ok: Block; Err: CanisterId }; Err: text });
+  tip_of_chain : () -> (variant { Ok: TipOfChain; Err: text });
+}

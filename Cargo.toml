@@ -1,0 +1,24 @@
+[package]
+name = "ledger"
+version = "0.0.3"
+authors = ["quintolet"]
+edition = "2018"
+
+[profile.release]
+lto = true
+opt-level = 'z'
+panic = 'abort'
+
+[lib]
+path = "src/ledger/main.rs"
+crate-type = ["cdylib"]
+
+[dependencies]
+serde = "1"
+candid = "0.6"
+ic-types = { git = "https://github.com/dfinity/ic", rev = "779549eccfcf61ac702dfc2ee6d76ffdc2db1f7f" }
+dfn_candid = { git = "https://github.com/dfinity/ic", rev = "779549eccfcf61ac702dfc2ee6d76ffdc2db1f7f" }
+dfn_core = { git = "https://github.com/dfinity/ic", rev = "779549eccfcf61ac702dfc2ee6d76ffdc2db1f7f" }
+dfn_protobuf = { git = "https://github.com/dfinity/ic", rev = "779549eccfcf61ac702dfc2ee6d76ffdc2db1f7f" }
+ledger-canister = { git = "https://github.com/dfinity/ic", rev = "779549eccfcf61ac702dfc2ee6d76ffdc2db1f7f" }
+ic-nns-constants = { git = "https://github.com/dfinity/ic", rev = "779549eccfcf61ac702dfc2ee6d76ffdc2db1f7f" }
