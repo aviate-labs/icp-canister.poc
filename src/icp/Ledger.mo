@@ -1,4 +1,6 @@
 module {
+    public let CANISTER_ID : Text = "ryjl3-tyaaa-aaaaa-aaaba-cai";
+
     public type Result<T, E> = {
         #Ok  : T;
         #Err : E;
